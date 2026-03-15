@@ -1,0 +1,29 @@
+services:
+  backend:
+    build: ./backend
+    container_name: optionspanel-api
+    restart: unless-stopped
+    ports:
+      - "7188:7188"
+    environment:
+      - PYTHONUNBUFFERED=1
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7188/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  frontend:
+    build:
+      context: ./optionpanel
+      args:
+        - NEXT_PUBLIC_API_URL=http://localhost:7188
+    container_name: optionspanel-web
+    restart: unless-stopped
+    ports:
+      - "7189:7189"
+    depends_on:
+      backend:
+        condition: service_healthy
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:7188

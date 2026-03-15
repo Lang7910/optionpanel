@@ -1,26 +1,147 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-call: var(--call);
+  --color-call-bg: var(--call-bg);
+  --color-put: var(--put);
+  --color-put-bg: var(--put-bg);
+  --color-positive: var(--positive);
+  --color-negative: var(--negative);
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --background: #0b0e14;
+  --foreground: #e8ecf4;
+  --card: #141820;
+  --card-foreground: #e8ecf4;
+  --border: #252b3b;
+  --muted: #1a1f2e;
+  --muted-foreground: #8b95a8;
+  --accent: #3b82f6;
+  --accent-foreground: #e8ecf4;
+  --call: #22c55e;
+  --call-bg: rgba(34, 197, 94, 0.1);
+  --put: #f43f5e;
+  --put-bg: rgba(244, 63, 94, 0.1);
+  --positive: #22c55e;
+  --negative: #f43f5e;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
+}
+
+/* Table styles */
+.option-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  font-size: 0.875rem;
+  font-family: var(--font-mono);
+}
+.option-table th {
+  background: var(--muted);
+  color: var(--muted-foreground);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  padding: 10px 8px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 2px solid var(--border);
+}
+.option-table td {
+  padding: 7px 8px;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+  transition: background 0.15s;
+  color: #c8ceda;
+}
+.option-table tr:hover td {
+  background: rgba(255, 255, 255, 0.03);
+}
+.option-table .atm-row td {
+  background: rgba(59, 130, 246, 0.12);
+  border-top: 1px solid rgba(59, 130, 246, 0.4);
+  border-bottom: 1px solid rgba(59, 130, 246, 0.4);
+}
+.option-table .strike-col {
+  background: #1c2235;
+  font-weight: 700;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #f0f4ff;
+  min-width: 90px;
+  position: relative;
+  border-left: 2px solid var(--border);
+  border-right: 2px solid var(--border);
+}
+.option-table .call-side {
+  text-align: right;
+}
+.option-table .put-side {
+  text-align: left;
+}
+
+/* Slider custom */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 5px;
+  background: var(--border);
+  border-radius: 3px;
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: var(--accent);
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid var(--background);
+  box-shadow: 0 0 4px rgba(59, 130, 246, 0.4);
 }

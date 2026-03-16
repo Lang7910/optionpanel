@@ -8,11 +8,13 @@ RUN corepack enable && pnpm install --frozen-lockfile
 
 COPY . .
 
-# API URL is set at build time for client-side code
-# For Docker: backend is accessible via container name on internal network
-# For browser: user accesses backend directly at host:7188
-ARG NEXT_PUBLIC_API_URL=http://localhost:7188
+# Optional public API URL override for browser-side requests
+ARG NEXT_PUBLIC_API_URL=
 ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+
+# Default server-side proxy target for Docker deployment
+ARG API_PROXY_TARGET=http://backend:7188
+ENV API_PROXY_TARGET=${API_PROXY_TARGET}
 
 RUN pnpm build
 

@@ -5,11 +5,11 @@ import type {
   SnapshotResponse,
 } from "./types";
 
-const API_BASE =
-  process.env.NEXT_PUBLIC_API_URL ||
-  (typeof window !== "undefined"
-    ? `${window.location.protocol}//${window.location.hostname}:7188`
-    : "http://localhost:7188");
+const API_BASE = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") ?? "";
+
+function buildApiUrl(path: string): string {
+  return `${API_BASE}${path}`;
+}
 
 async function fetchJson<T>(url: string): Promise<T> {
   const res = await fetch(url, { cache: "no-store" });
@@ -21,7 +21,7 @@ export async function getUnderlyings(
   exchange: string = "binance"
 ): Promise<UnderlyingsResponse> {
   return fetchJson<UnderlyingsResponse>(
-    `${API_BASE}/api/options/underlyings?exchange=${exchange}`
+    buildApiUrl(`/api/options/underlyings?exchange=${exchange}`)
   );
 }
 
@@ -30,7 +30,9 @@ export async function getExpiries(
   exchange: string = "binance"
 ): Promise<ExpiriesResponse> {
   return fetchJson<ExpiriesResponse>(
-    `${API_BASE}/api/options/expiries?underlying=${underlying}&exchange=${exchange}`
+    buildApiUrl(
+      `/api/options/expiries?underlying=${underlying}&exchange=${exchange}`
+    )
   );
 }
 
@@ -40,7 +42,9 @@ export async function getChain(
   exchange: string = "binance"
 ): Promise<ChainResponse> {
   return fetchJson<ChainResponse>(
-    `${API_BASE}/api/options/chain?underlying=${underlying}&expiry=${expiry}&exchange=${exchange}`
+    buildApiUrl(
+      `/api/options/chain?underlying=${underlying}&expiry=${expiry}&exchange=${exchange}`
+    )
   );
 }
 
@@ -51,6 +55,6 @@ export async function getSnapshot(
   const params = new URLSearchParams({ exchange });
   if (underlying) params.set("underlying", underlying);
   return fetchJson<SnapshotResponse>(
-    `${API_BASE}/api/options/snapshot?${params.toString()}`
+    buildApiUrl(`/api/options/snapshot?${params.toString()}`)
   );
 }

@@ -17,6 +17,8 @@ services:
   frontend:
     build:
       context: ./optionpanel
+      args:
+        API_PROXY_TARGET: http://backend:7188
     container_name: optionspanel-web
     restart: unless-stopped
     ports:

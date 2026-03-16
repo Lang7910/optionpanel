@@ -17,8 +17,6 @@ services:
   frontend:
     build:
       context: ./optionpanel
-      args:
-        - NEXT_PUBLIC_API_URL=http://localhost:7188
     container_name: optionspanel-web
     restart: unless-stopped
     ports:
@@ -26,5 +24,3 @@ services:
     depends_on:
       backend:
         condition: service_healthy
-    environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:7188
